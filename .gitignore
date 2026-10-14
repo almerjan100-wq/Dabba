@@ -1,0 +1,24 @@
+# dependencies & builds
+node_modules/
+.next/
+.expo/
+dist/
+web-build/
+android/
+ios/
+*.tsbuildinfo
+.vercel
+
+# secrets — never commit these
+.env
+.env.*
+!.env.example
+*.jks
+*.keystore
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# platform-managed file (not used by Dabba)
+web/lib/auth.ts
