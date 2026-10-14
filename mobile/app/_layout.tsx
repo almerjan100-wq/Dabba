@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Platform, View } from 'react-native';
+import { ActivityIndicator, Platform, View } from 'react-native';
 import { Stack, router, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -37,6 +37,32 @@ function Gate() {
   return null;
 }
 
+function AppShell() {
+  const { ready } = useAuth();
+  if (!ready) {
+    return (
+      <View style={{ flex: 1, backgroundColor: C.header, alignItems: 'center', justifyContent: 'center' }}>
+        <ActivityIndicator color={C.gold} />
+      </View>
+    );
+  }
+  return (
+    <>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          contentStyle: { backgroundColor: C.bg },
+          animation: Platform.OS === 'android' ? 'fade_from_bottom' : 'default',
+        }}
+      />
+      <Gate />
+      <MessageAlerts />
+      <CallLayer />
+      <AppLockOverlay />
+    </>
+  );
+}
+
 export default function RootLayout() {
   const [loaded, error] = useFonts({
     PlusJakartaSans_400Regular,
@@ -63,17 +89,7 @@ export default function RootLayout() {
         <StatusBar style="light" />
         <View style={{ flex: 1, backgroundColor: Platform.OS === 'web' ? '#131210' : C.bg }}>
           <View style={Platform.OS === 'web' ? { flex: 1, width: '100%', maxWidth: 560, alignSelf: 'center', backgroundColor: C.bg, overflow: 'hidden' } : { flex: 1 }}>
-            <Stack
-              screenOptions={{
-                headerShown: false,
-                contentStyle: { backgroundColor: C.bg },
-                animation: Platform.OS === 'android' ? 'fade_from_bottom' : 'default',
-              }}
-            />
-            <Gate />
-            <MessageAlerts />
-            <CallLayer />
-            <AppLockOverlay />
+            <AppShell />
             <OverlayHost />
           </View>
         </View>

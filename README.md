@@ -35,3 +35,7 @@ cd web && npm install && cp .env.example .env   # fill in DATABASE_URL, INVITE_C
 npm run dev                                       # API on http://localhost:3000
 cd ../mobile && npm install && npx expo start --web
 ```
+
+## Source backup
+Besides GitHub, every release is also saved as a `.tar.gz` in the database table `app_source_backups`
+(`SELECT encode(data, 'base64') FROM app_source_backups ORDER BY id DESC LIMIT 1;` → base64-decode → `tar xzf`).
